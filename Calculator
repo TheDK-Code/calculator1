@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dylan's Calculator</title>
+    <style>
+        body {
+            background: linear-gradient(135deg, rgb(80,255,75), rgb(120,255,120));
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        .container {
+            text-align: center;
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.2);
+        }
+
+        label {
+            font-size: 18px;
+            font-weight: bold;
+            display: block;
+            margin-top: 10px;
+        }
+
+        input {
+            font-size: 24px;
+            padding: 10px;
+            width: 250px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            border: 2px solid #ccc;
+            transition: border-color 0.3s;
+        }
+
+        input:focus {
+            border-color: rgb(40,150,255);
+            outline: none;
+        }
+
+        .btn-row {
+            margin-top: 15px;
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            animation: pulseColor 3s infinite alternate ease-in-out;
+            padding: 12px 20px;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+            color: white;
+            transition: transform 0.2s;
+        }
+
+        .btn:hover {
+            transform: scale(1.1);
+        }
+
+        #result {
+            font-size: 36px;
+            font-weight: bold;
+            margin-top: 20px;
+            min-height: 40px;
+        }
+
+        @keyframes pulseColor {
+            0%   { background-color: rgb(255, 70, 40); }
+            25%  { background-color: rgb(255, 140, 0); }
+            50%  { background-color: rgb(255, 220, 40); }
+            75%  { background-color: rgb(40, 150, 255); }
+            100% { background-color: rgb(180, 40, 255); }
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>Dylan's Calculator</h1>
+
+<div class="container">
+    <label for="num1">First Number</label>
+    <input id="num1" type="number" placeholder="Enter first number">
+
+    <label for="num2">Second Number</label>
+    <input id="num2" type="number" placeholder="Enter second number">
+
+    <div class="btn-row">
+        <button class="btn" data-op="add">Add</button>
+        <button class="btn" data-op="subtract">Subtract</button>
+        <button class="btn" data-op="multiply">Multiply</button>
+        <button class="btn" data-op="divide">Divide</button>
+    </div>
+
+    <p id="result"></p>
+</div>
+
+<script>
+const num1El = document.getElementById("num1");
+const num2El = document.getElementById("num2");
+const resultEl = document.getElementById("result");
+
+const ops = {
+    add: (a, b) => a + b,
+    subtract: (a, b) => a - b,
+    multiply: (a, b) => a * b,
+    divide: (a, b) => b === 0 ? "Undefined" : a / b
+};
+
+function calculate(operation) {
+    const a = Number(num1El.value);
+    const b = Number(num2El.value);
+
+    if (isNaN(a) || isNaN(b)) {
+        resultEl.textContent = "Please enter valid numbers!";
+        return;
+    }
+
+    const answer = ops[operation](a, b);
+    resultEl.textContent = "Result: " + answer;
+}
+
+document.querySelectorAll(".btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+        calculate(btn.dataset.op);
+    });
+});
+</script>
+
+</body>
+</html>
